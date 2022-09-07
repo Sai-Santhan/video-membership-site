@@ -6,7 +6,7 @@ from cassandra.cqlengine import connection
 
 from app.core import config
 
-BASE_DIR = pathlib.Path(__file__).resolve().parent
+BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
 
 settings = config.get_settings()
 
