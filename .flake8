@@ -9,6 +9,8 @@ enable-extensions = TC, TC1
 type-checking-exempt-modules = typing, typing-extensions
 eradicate-whitelist-extend = ^-.*;
 extend-ignore =
+    # E712: Comparison to true should be 'if cond is true:' or 'if cond:'. Ignoring in pytest code
+    E712,
     # E203: Whitespace before ':' (pycqa/pycodestyle#373)
     E203,
     # SIM106: Handle error-cases first
