@@ -21,7 +21,12 @@ def on_startup():
 
 @app.get("/", response_class=HTMLResponse)
 def homepage(request: Request):
-    return render(request, "home.html", {})
+    return render(request, "home.html")
+
+
+@app.get("/login", response_class=HTMLResponse)
+def login_get_view(request: Request):
+    return render(request, "auth/login.html")
 
 
 @app.get("/users/")
