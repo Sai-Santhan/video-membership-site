@@ -1,16 +1,15 @@
 import uvicorn
-from fastapi import FastAPI
-from app.core import (
-    db
-    # config
-)
 from cassandra.cqlengine.management import sync_table
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+
+from app.core import db
+from app.core.shortcuts import render
 from app.users.models import User
 
 DB_SESSION = None
 
 app = FastAPI()
-# settings = config.get_settings()
 
 
 @app.on_event("startup")
@@ -18,6 +17,11 @@ def on_startup():
     global DB_SESSION
     DB_SESSION = db.get_session()
     sync_table(User)
+
+
+@app.get("/", response_class=HTMLResponse)
+def homepage(request: Request):
+    return render(request, "home.html", {})
 
 
 @app.get("/users/")
