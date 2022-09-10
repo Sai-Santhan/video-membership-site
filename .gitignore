@@ -2,6 +2,7 @@ unencrypted/
 .env
 # poetry
 *.pyc
+notebooks/
 
 # Packages
 *.egg
