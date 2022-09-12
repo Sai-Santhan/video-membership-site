@@ -1,11 +1,12 @@
 import uvicorn
 from cassandra.cqlengine.management import sync_table
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form, Depends
 from fastapi.responses import HTMLResponse
-
-from app.core import db
+from pydantic import EmailStr, SecretStr
+from app.core import db, utils
 from app.core.shortcuts import render
 from app.users.models import User
+from app.users.schemas import UserSignupSchema
 
 DB_SESSION = None
 
@@ -27,6 +28,48 @@ def homepage(request: Request):
 @app.get("/login", response_class=HTMLResponse)
 def login_get_view(request: Request):
     return render(request, "auth/login.html")
+
+
+@app.post("/login", response_class=HTMLResponse)
+def login_post_view(request: Request,
+                    email: EmailStr = Form(...),
+                    password: SecretStr = Form(...)):
+    raw_data = {
+        "email": email,
+        "password": password,
+    }
+    data, errors = utils.valid_schema_data_or_error(raw_data, UserLoginSchema)
+    context = {
+        "data": data,
+        "errors": errors,
+    }
+    # if len(errors) > 0:
+    return render(request, "auth/login.html", context)
+    #
+    # return redirect("/ ", cookies=data)
+
+
+@app.get("/signup", response_class=HTMLResponse)
+def signup_get_view(request: Request):
+    return render(request, "auth/signup.html")
+
+
+@app.post("/signup", response_class=HTMLResponse)
+def signup_post_view(request: Request,
+                     email: EmailStr = Form(...),
+                     password: SecretStr = Form(...),
+                     password_confirm: SecretStr = Form(...)):
+    raw_data = {
+        "email": email,
+        "password": password,
+        "password_confirm": password_confirm
+    }
+    data, errors = utils.valid_schema_data_or_error(raw_data, UserSignupSchema)
+    context = {
+        "data": data,
+        "errors": errors,
+    }
+    return render(request, "auth/signup.html", context)
 
 
 @app.get("/users/")
