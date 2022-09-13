@@ -3,7 +3,7 @@ from cassandra.cqlengine.management import sync_table
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from pydantic import EmailStr, SecretStr
-
+from app.users.decorators import login_required
 from app.core import db, utils
 from app.core.shortcuts import render, redirect
 from app.users.models import User
@@ -24,6 +24,12 @@ def on_startup():
 @app.get("/", response_class=HTMLResponse)
 def homepage(request: Request):
     return render(request, "home.html")
+
+
+@app.get("/account", response_class=HTMLResponse)
+@login_required
+def account_view(request: Request):
+    return render(request, "account.html")
 
 
 @app.get("/login", response_class=HTMLResponse)
