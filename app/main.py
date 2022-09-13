@@ -1,12 +1,13 @@
 import uvicorn
 from cassandra.cqlengine.management import sync_table
-from fastapi import FastAPI, Request, Form, Depends
+from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from pydantic import EmailStr, SecretStr
+
 from app.core import db, utils
-from app.core.shortcuts import render
+from app.core.shortcuts import render, redirect
 from app.users.models import User
-from app.users.schemas import UserSignupSchema
+from app.users.schemas import UserSignupSchema, UserLoginSchema
 
 DB_SESSION = None
 
@@ -43,10 +44,9 @@ def login_post_view(request: Request,
         "data": data,
         "errors": errors,
     }
-    # if len(errors) > 0:
-    return render(request, "auth/login.html", context)
-    #
-    # return redirect("/ ", cookies=data)
+    if len(errors) > 0:
+        return render(request, "auth/login.html", context)
+    return redirect("/", cookies=data)
 
 
 @app.get("/signup", response_class=HTMLResponse)
@@ -69,7 +69,9 @@ def signup_post_view(request: Request,
         "data": data,
         "errors": errors,
     }
-    return render(request, "auth/signup.html", context)
+    if len(errors) > 0:
+        return render(request, "auth/signup.html", context)
+    return redirect("/login")
 
 
 @app.get("/users/")
