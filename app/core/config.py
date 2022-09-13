@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     secret_key: str = Field(...)
     jwt_algorithm: str = Field(default="HS256")
     session_duration: int = Field(default=86400)
+
     # algolia_app_id: str
     # algolia_api_key: str
     # algolia_index_name: str

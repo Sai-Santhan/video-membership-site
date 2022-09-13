@@ -1,9 +1,11 @@
 import json
+from typing import Type
+
 from fastapi.encoders import jsonable_encoder
 from pydantic import error_wrappers, BaseModel
 
 
-def valid_schema_data_or_error(raw_data: dict, schema_model: BaseModel):
+def valid_schema_data_or_error(raw_data: dict, schema_model: Type[BaseModel]):
     data = {}
     errors = []
     error_str = None
