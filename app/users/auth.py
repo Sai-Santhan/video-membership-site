@@ -13,8 +13,9 @@ def authenticate(email, password):
         user_obj = User.objects.allow_filtering().get(email=email)
     except Exception as e:
         user_obj = None
-    if not user_obj.verify_password(password):
-        return None
+    if user_obj:
+        if not user_obj.verify_password(password):
+            return None
     return user_obj
 
 
