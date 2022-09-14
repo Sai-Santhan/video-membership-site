@@ -42,7 +42,7 @@ class User(Model):
         q = User.objects.filter(email=email)
         if q.count() != 0:
             raise UserHasAccountException("User with this email already exists.")
-        valid, msg, email = validators._validate_email(email)
+        valid, msg, email = validators.validate_the_email(email)
         if not valid:
             raise InvalidEmailException(f"Invalid Email: {msg}")
         obj = User(email=email)
