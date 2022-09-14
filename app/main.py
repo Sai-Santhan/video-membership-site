@@ -14,11 +14,13 @@ from app.users.exceptions import LoginRequiredException
 from app.users.models import User
 from app.users.schemas import UserSignupSchema, UserLoginSchema
 from app.videos.models import Video
+from app.videos.routers import router as video_router
 
 DB_SESSION = None
 
 app = FastAPI()
 app.add_middleware(AuthenticationMiddleware, backend=JWTCookieBackend())
+app.include_router(video_router)
 
 
 @app.exception_handler(StarletteHTTPException)
