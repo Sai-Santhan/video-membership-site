@@ -4,9 +4,11 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from pydantic import EmailStr, SecretStr
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from starlette.middleware.authentication import AuthenticationMiddleware
 
 from app.core import db, utils
 from app.core.shortcuts import render, redirect
+from app.users.backends import JWTCookieBackend
 from app.users.decorators import login_required
 from app.users.exceptions import LoginRequiredException
 from app.users.models import User
@@ -15,6 +17,7 @@ from app.users.schemas import UserSignupSchema, UserLoginSchema
 DB_SESSION = None
 
 app = FastAPI()
+app.add_middleware(AuthenticationMiddleware, backend=JWTCookieBackend())
 
 
 @app.exception_handler(StarletteHTTPException)
