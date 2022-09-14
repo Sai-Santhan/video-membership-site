@@ -13,6 +13,7 @@ from app.users.decorators import login_required
 from app.users.exceptions import LoginRequiredException
 from app.users.models import User
 from app.users.schemas import UserSignupSchema, UserLoginSchema
+from app.videos.models import Video
 
 DB_SESSION = None
 
@@ -40,6 +41,7 @@ def on_startup():
     global DB_SESSION
     DB_SESSION = db.get_session()
     sync_table(User)
+    sync_table(Video)
 
 
 @app.get("/", response_class=HTMLResponse)
