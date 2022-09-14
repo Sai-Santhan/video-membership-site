@@ -2,9 +2,11 @@ import uuid
 
 from cassandra.cqlengine import columns
 from cassandra.cqlengine.models import Model
-from app.videos.extractors import extract_video_id
+
 from app.core.config import get_settings
 from app.users.models import User
+from app.videos.extractors import extract_video_id
+
 settings = get_settings()
 
 
@@ -31,7 +33,7 @@ class Video(Model):
         user_id_exists = User.check_exists(user_id)
         if user_id_exists is None:
             raise Exception("Invalid User ID")
-        q = Video.objects.filter(
+        q = Video.objects.allow_filtering().filter(
             host_id=host_id,
             # Add below line if you want to restrict videos to a specific user, that is not the case now.
             user_id=user_id
@@ -39,7 +41,6 @@ class Video(Model):
         if q.count() != 0:
             raise Exception("Video already exists.")
         return Video.create(host_id=host_id, user_id=user_id, url=url)
-
 
 # class PrivateVideo(Video):
 #     pass
