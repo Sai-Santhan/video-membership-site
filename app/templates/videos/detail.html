@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {{ object }}
+    <hr>
+    {{ host_id }}
+    <hr>
+    {{ object.render()|safe }}
+    <hr>
+    {% include 'videos/renderers/youtube.html' %}
+
+{% endblock %}
