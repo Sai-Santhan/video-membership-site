@@ -48,8 +48,8 @@ class Video(Model):
             raise InvalidUserIDException("Invalid User ID")
         q = Video.objects.allow_filtering().filter(
             host_id=host_id,
-            # Add below line if you want to restrict videos to a specific user, that is not the case now.
-            user_id=user_id
+            # MultipleObjectsReturned Exception - no duplicate video
+            # user_id=user_id
         )
         if q.count() != 0:
             raise VideoAlreadyAddedException("Video already exists.")
