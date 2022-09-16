@@ -39,7 +39,7 @@ class Video(Model):
         return f"/videos/{self.host_id}"
 
     @staticmethod
-    def add_video(url, user_id=None):
+    def add_video(url, user_id=None, **kwargs):
         host_id = extract_video_id(url)
         if host_id is None:
             raise InvalidYouTubeVideoURLException("Invalid Youtube Video URL")
@@ -53,7 +53,7 @@ class Video(Model):
         )
         if q.count() != 0:
             raise VideoAlreadyAddedException("Video already exists.")
-        return Video.create(host_id=host_id, user_id=user_id, url=url)
+        return Video.create(host_id=host_id, user_id=user_id, url=url, **kwargs)
 
 # class PrivateVideo(Video):
 #     pass

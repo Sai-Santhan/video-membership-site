@@ -32,7 +32,7 @@ class VideoCreateSchema(BaseModel):
         if title is not None:
             extra_data['title'] = title
         try:
-            video_obj = Video.add_video(url, user_id=user_id)
+            video_obj = Video.add_video(url, user_id=user_id, **extra_data)
         except InvalidYouTubeVideoURLException:
             raise ValueError(f"{url} is not a valid YouTube URL")
         except VideoAlreadyAddedException:
