@@ -16,6 +16,7 @@ from app.users.schemas import UserSignupSchema, UserLoginSchema
 from app.videos.models import Video
 from app.videos.routers import router as video_router
 from app.watch_events.models import WatchEvent
+from app.watch_events.schemas import WatchEventSchema
 
 DB_SESSION = None
 
@@ -115,18 +116,15 @@ def users_list_view():
     return list(q)
 
 
-@app.post("/watch-event")
-def watch_event_view(request: Request, data: dict):
+@app.post("/watch-event", response_model=WatchEventSchema)
+def watch_event_view(request: Request, watch_event: WatchEventSchema):
+    cleaned_data = watch_event.dict()
+    data = cleaned_data.copy()
+    data.update({"user_id": request.user.username})
     if request.user.is_authenticated:
-        WatchEvent.objects.create(
-            host_id=data.get("videoId"),
-            user_id=request.user.username,
-            start_time=0,
-            end_time=data.get('currentTime'),
-            duration=500,
-            complete=False
-        )
-    return {"working": True}
+        WatchEvent.objects.create(**data)
+        return watch_event
+    return watch_event
 
 
 def start():
