@@ -82,9 +82,14 @@
         }
 
         function storeWatchEvent() {
+            var duration = player.getDuration()
             var data = {
-                currentTime: currentTime,
-                videoId: videoId
+                host_id: videoId,
+                path: window.location.pathname,
+                start_time: initialStartTime,
+                end_time: currentTime,
+                duration: duration,
+                complete: (duration * 0.98) < currentTime
             }
             timeSinceLastSaved = 0;
             console.log('saving...', data)
@@ -99,12 +104,12 @@
             }
             fetch("/watch-event", reqOptions)
                 .then(response => response.json())
-            /*.then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });*/
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
 
 
