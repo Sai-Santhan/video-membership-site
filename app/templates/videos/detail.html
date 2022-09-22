@@ -88,6 +88,23 @@
             }
             timeSinceLastSaved = 0;
             console.log('saving...', data)
+
+            // Send JSON POST data to FastAPI view
+            var reqOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+            fetch("/watch-event", reqOptions)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
 
 
