@@ -17,6 +17,7 @@
             var videoId = youtubeVideoDiv.getAttribute("data-video-id");
             var defaultStartTime = 0;
             var initialStartTime = parseInt(youtubeVideoDiv.getAttribute("data-start-time")) || defaultStartTime;
+            var watchEventEndpoint = "/api/events/watch"
             var player;
             var currentTime;
             var isPlaying;
@@ -92,7 +93,7 @@
                 complete: (duration * 0.98) < currentTime
             }
             timeSinceLastSaved = 0;
-            console.log('saving...', data)
+            //console.log('saving...', data)
 
             // Send JSON POST data to FastAPI view
             var reqOptions = {
@@ -102,13 +103,13 @@
                 },
                 body: JSON.stringify(data)
             }
-            fetch("api/events/watch", reqOptions)
+            fetch(watchEventEndpoint, reqOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Success:', data);
+                    //console.log('Success:', data);
                 })
                 .catch((error) => {
-                    console.error('Error:', error);
+                    //console.error('Error:', error);
                 });
         }
 

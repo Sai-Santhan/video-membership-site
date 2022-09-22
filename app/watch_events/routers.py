@@ -6,7 +6,7 @@ from app.watch_events.schemas import WatchEventSchema
 router = APIRouter()
 
 
-@router.post("api/events/watch", response_model=WatchEventSchema)
+@router.post("/api/events/watch", response_model=WatchEventSchema)
 def watch_event_view(request: Request, watch_event: WatchEventSchema):
     if request.user.is_authenticated:
         cleaned_data = watch_event.dict()
