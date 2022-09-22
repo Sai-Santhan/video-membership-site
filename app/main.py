@@ -113,6 +113,14 @@ def users_list_view():
     return list(q)
 
 
+@app.post("/watch-event")
+def watch_event_view(request: Request, data: dict):
+    print("data", data)
+    print(request.user.is_authenticated)
+    return {"working": True}
+
+
+
 def start():
     """Launched with `poetry run start` at root level"""
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
