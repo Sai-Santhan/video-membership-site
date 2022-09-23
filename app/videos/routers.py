@@ -1,11 +1,13 @@
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse
 
+# from devtools import debug
 from app.core import utils
 from app.core.shortcuts import render, redirect, get_object_or_404
 from app.users.decorators import login_required
 from app.videos.models import Video
 from app.videos.schemas import VideoCreateSchema
+from app.watch_events.models import WatchEvent
 
 router = APIRouter(
     prefix="/videos"
@@ -57,8 +59,20 @@ def video_list_view(request: Request):
 @router.get("/{host_id}", response_class=HTMLResponse)
 def video_detail_view(request: Request, host_id: str):
     obj = get_object_or_404(Video, host_id=host_id)
+    start_time = 0
+    # TODO complete and completed?
+    # debug(WatchEvent.completed)
+    # debug(WatchEvent.complete)
+    # complete = WatchEvent.complete
+    # completed = WatchEvent.completed.__str__()
+    if request.user.is_authenticated:
+        user_id = request.user.username
+        start_time = WatchEvent.get_resume_time(host_id, user_id)
     context = {
         "host_id": host_id,
-        "object": obj
+        "start_time": start_time,
+        "object": obj,
+        # "frontend_complete": complete,
+        # "backend_completed": completed,
     }
     return render(request, "videos/detail.html", context)
