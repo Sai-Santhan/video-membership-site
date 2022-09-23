@@ -2,12 +2,13 @@
 
 {% block content %}
 
-    {{ host_id }}
-    {{ object }}
+    <h1>{{ object.title }}</h1>
+{#    <h1>{{ frontend_complete }}</h1>  #}
+{#    <h1>{{ backend_completed.__str__() }}</h1>  #}
+    <p>{{ start_time }}</p>
 
 
-
-    <div id="yt-video" data-video-id="{{ host_id }}" data-start-time="0"></div>
+    <div id="yt-video" data-video-id="{{ host_id }}" data-start-time="{{ start_time }}"></div>
 
     <div><code>{{ object.render() }}</code></div>
 
@@ -33,7 +34,7 @@
                     videoId: videoId,
                     playerVars: {
                         'modestbranding': 1,
-                        'autoplay': 1,
+                        'autoplay': 0,
                         'start': 0,
                         'playsinline': 1,
                         'controls': 1,
