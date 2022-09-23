@@ -3,14 +3,17 @@
 {% block content %}
 
     <h1>{{ object.title }}</h1>
-{#    <h1>{{ frontend_complete }}</h1>  #}
-{#    <h1>{{ backend_completed.__str__() }}</h1>  #}
+    {#    <h1>{{ frontend_complete }}</h1>  #}
+    {#    <h1>{{ backend_completed.__str__() }}</h1>  #}
     <p>{{ start_time }}</p>
 
 
     <div id="yt-video" data-video-id="{{ host_id }}" data-start-time="{{ start_time }}"></div>
 
-    <div><code>{{ object.render() }}</code></div>
+    <div>
+        {% if object.title %}<h3>{{ object.title }}</h3>{% endif %}
+        <code>{{ object.render() }}</code>
+    </div>
 
     <script>
         var youtubeVideoDiv = document.getElementById('yt-video');
