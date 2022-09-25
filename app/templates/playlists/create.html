@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Add Playlist</h1>
+
+    {% include "snippets/form_errors.html" %}
+
+    <form method="post">
+        <div>
+            <label for="title">Title</label>
+            <input class="form-control" type="text" name="title" id="title" placeholder='Your Playlist Title'
+                   value="{% if title %}{{ title }}{% endif %}" required>
+        </div>
+
+        <button class='btn btn-primary mt-2' type='submit'>Add Playlist</button>
+
+    </form>
+{% endblock %}
