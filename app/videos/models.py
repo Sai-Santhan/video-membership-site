@@ -2,8 +2,10 @@ import uuid
 
 from cassandra.cqlengine import columns
 from cassandra.cqlengine.models import Model
-from app.core.shortcuts import templates
+from cassandra.cqlengine.query import DoesNotExist, MultipleObjectsReturned
+
 from app.core.config import get_settings
+from app.core.shortcuts import templates
 from app.users.exceptions import InvalidUserIDException
 from app.users.models import User
 from app.videos.exceptions import VideoAlreadyAddedException, InvalidYouTubeVideoURLException
@@ -44,6 +46,23 @@ class Video(Model):
     @property
     def path(self):
         return f"/videos/{self.host_id}"
+
+    @staticmethod
+    def get_or_create(url, user_id=None, **kwargs):
+        host_id = extract_video_id(url)
+        obj = None
+        created = False
+        try:
+            obj = Video.objects.get(host_id=host_id)
+        except MultipleObjectsReturned:
+            q = Video.objects.allow_filtering().filter(host_id=host_id)
+            obj = q.first()
+        except DoesNotExist:
+            obj = Video.add_video(url, user_id=user_id, **kwargs)
+            created = True
+        except:
+            raise Exception("Invalid Request.")
+        return obj, created
 
     @staticmethod
     def add_video(url, user_id=None, **kwargs):
