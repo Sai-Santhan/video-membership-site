@@ -1,6 +1,8 @@
 <div>
 
-    <form method="post">
+    {% include 'snippets/form_errors.html' %}
+
+    <form method="post" action="/videos/create" hx-post="/videos/create">
         <div>
             <label for="title">Title</label>
             <input class="form-control" type="text" name="title" id="title" placeholder='Your Video Title'
@@ -10,7 +12,7 @@
         <div>
             <label for='url'>YouTube Link</label>
             <input class='form-control' type='text' name='url' id='url'
-                   required='required'
+                   required
                    placeholder='https://www.youtube.com/watch?v=GlDr6aKBtFg' value="{% if url %}{{ url }}{% endif %}"/>
         </div>
 
