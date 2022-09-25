@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Request, Form
+from fastapi import APIRouter, Request, Form, Depends
 from fastapi.responses import HTMLResponse
 
 # from devtools import debug
 from app.core import utils
-from app.core.shortcuts import render, redirect, get_object_or_404
+from app.core.shortcuts import render, redirect, get_object_or_404, is_htmx
 from app.users.decorators import login_required
 from app.videos.models import Video
 from app.videos.schemas import VideoCreateSchema
@@ -16,7 +16,10 @@ router = APIRouter(
 
 @router.get("/create", response_class=HTMLResponse)
 @login_required
-def video_create_view(request: Request):
+def video_create_view(request: Request, is_htmx=Depends(is_htmx)):
+    # hx-request
+    if is_htmx:
+        return render(request, "videos/htmx/create.html")
     return render(request, "videos/create.html")
 
 
