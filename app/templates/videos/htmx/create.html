@@ -1,0 +1,21 @@
+<div>
+
+    <form method="post">
+        <div>
+            <label for="title">Title</label>
+            <input class="form-control" type="text" name="title" id="title" placeholder='Your Video Title'
+                   value="{% if title %}{{ title }}{% endif %}" required>
+        </div>
+
+        <div>
+            <label for='url'>YouTube Link</label>
+            <input class='form-control' type='text' name='url' id='url'
+                   required='required'
+                   placeholder='https://www.youtube.com/watch?v=GlDr6aKBtFg' value="{% if url %}{{ url }}{% endif %}"/>
+        </div>
+
+        <button class='btn btn-primary mt-2' type='submit'>Add Video</button>
+
+    </form>
+
+</div>
