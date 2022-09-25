@@ -21,7 +21,7 @@ class WatchEvent(Model):
 
     @property
     def completed(self):
-        return (self.duration * 0.50) < self.end_time
+        return (self.duration * 0.97) < self.end_time
 
     @staticmethod
     def get_resume_time(host_id, user_id):
