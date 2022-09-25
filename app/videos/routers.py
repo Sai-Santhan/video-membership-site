@@ -26,6 +26,7 @@ def video_create_view(request: Request, is_htmx=Depends(is_htmx)):
 @router.post("/create", response_class=HTMLResponse)
 @login_required
 def video_create_post_view(request: Request,
+                           is_htmx=Depends(is_htmx),
                            title: str = Form(),
                            url: str = Form()):
     raw_data = {
@@ -43,6 +44,18 @@ def video_create_post_view(request: Request,
         "title": title,
         "url": url,
     }
+
+    if is_htmx:
+        """
+        Handle all HTMX requests
+        """
+        if len(errors) > 0:
+            return render(request, "videos/htmx/create.html", context)
+        context = {
+            "path": redirect_path,
+            "title": data.get('title')
+        }
+        return render(request, "videos/htmx/link.html", context)
 
     if len(errors) > 0:
         return render(request, "videos/create.html", context, status_code=400)
