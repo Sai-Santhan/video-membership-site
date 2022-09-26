@@ -1,13 +1,16 @@
 import uuid
-from app.videos.extractors import extract_video_id
+
 from pydantic import BaseModel, validator, root_validator
-from app.videos.models import Video
+
 from app.playlists.models import Playlist
+from app.videos.extractors import extract_video_id
+from app.videos.models import Video
 
 
 class PlaylistCreateSchema(BaseModel):
     title: str
     user_id: uuid.UUID
+
 
 class PlaylistVideoAddSchema(BaseModel):
     url: str
