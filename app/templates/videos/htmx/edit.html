@@ -2,11 +2,11 @@
 
     {% include 'snippets/form_errors.html' %}
 
-    <form method="post" action="/videos/{{ video.host_id }}/edit">
+    <form method="post" action="/videos/{{ object.host_id }}/edit/" hx-post="/videos/{{ object.host_id }}/hx-edit/">
         <div>
             <label for="title">Title</label>
             <input class="form-control" type="text" name="title" id="title" placeholder='Your Video Title'
-                   value="{% if video.title %}{{ video.title }}{% endif %}" required>
+                   value="{% if object.title %}{{ object.title }}{% endif %}" required>
         </div>
 
         <div>
