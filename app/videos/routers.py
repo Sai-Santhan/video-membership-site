@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Request, Form, Depends
+from typing import Union
+
+from fastapi import APIRouter, Request, Form, Depends, HTTPException
 from fastapi.responses import HTMLResponse
 
 # from devtools import debug
@@ -99,7 +101,6 @@ def video_detail_view(request: Request, host_id: str):
 def video_edit_view(request: Request, host_id: str):
     obj = get_object_or_404(Video, host_id=host_id)
     context = {
-        "host_id": host_id,
         "object": obj,
     }
     return render(request, "videos/edit.html", context)
@@ -126,4 +127,63 @@ def video_edit_post_view(request: Request,
         return render(request, "videos/edit.html", context, status_code=400)
     obj.title = data.get("title") or obj.title
     obj.update_video_url(url, save=True)
-    return render(request, "videos/edit.html", context, status_code=400)
+    return render(request, "videos/edit.html", context)
+
+
+@router.get("/{host_id}/hx-edit/", response_class=HTMLResponse)
+@login_required
+def video_hx_edit_view(request: Request,
+                       host_id: str,
+                       is_htmx=Depends(is_htmx)):
+    if not is_htmx:
+        raise HTTPException(status_code=400)
+    obj = None
+    not_found = False
+    try:
+        obj = get_object_or_404(Video, host_id=host_id)
+    except:
+        not_found = True
+    if not_found:
+        return HTMLResponse("Video not found, Please try again.")
+    context = {
+        "object": obj,
+    }
+    return render(request, "videos/htmx/edit.html", context)
+
+
+@router.post("/{host_id}/hx-edit/", response_class=HTMLResponse)
+@login_required
+def video_hx_edit_post_view(request: Request,
+                            host_id: str,
+                            is_htmx=Depends(is_htmx),
+                            title: str = Form(),
+                            url: str = Form(),
+                            delete: Union[bool, None] = Form(default=False)):
+    if not is_htmx:
+        raise HTTPException(status_code=400)
+    obj = None
+    not_found = False
+    try:
+        obj = get_object_or_404(Video, host_id=host_id)
+    except:
+        not_found = True
+    if not_found:
+        return HTMLResponse("Video not found, Please try again.")
+    if delete:
+        obj.delete()
+        return HTMLResponse("Video has been Deleted.")
+    raw_data = {
+        "title": title,
+        "url": url,
+        "user_id": request.user.username
+    }
+
+    context = {
+        "object": obj
+    }
+    data, errors = utils.valid_schema_data_or_error(raw_data, VideoEditSchema)
+    if len(errors) != 0:
+        return render(request, "videos/htmx/edit.html", context, status_code=400)
+    obj.title = data.get("title") or obj.title
+    obj.update_video_url(url, save=True)
+    return render(request, "videos/htmx/list-inline.html", context)
