@@ -2,17 +2,19 @@
 
 {% block content %}
 
-    <h1>{{ object.title }}</h1>
-    {#    <h1>{{ frontend_complete }}</h1>  #}
-    {#    <h1>{{ backend_completed.__str__() }}</h1>  #}
-    <p>{{ start_time }}</p>
+    <div class="row">
 
+        <div class="col-md-9 col-12">
+            {#    <h1>{{ frontend_complete }}</h1>  #}
+            {#    <h1>{{ backend_completed.__str__() }}</h1>  #}
 
-    <div id="yt-video" data-video-id="{{ host_id }}" data-start-time="{{ start_time }}"></div>
-
-    <div>
-        {% if object.title %}<h3>{{ object.title }}</h3>{% endif %}
-        <code>{{ object.render() }}</code>
+            <div class="ratio ratio-16x9" id="yt-video" data-video-id="{{ host_id }}"
+                 data-start-time="{{ start_time }}"></div>
+        </div>
+        <div class="col-md-3 col-12">
+            {% if object.title %}<h5>{{ object.title }}</h5>{% endif %}
+            <code>{{ object.render() }}</code>
+        </div>
     </div>
 
     <script>
