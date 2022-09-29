@@ -1,3 +1,5 @@
+from typing import Union
+
 import uvicorn
 from cassandra.cqlengine.management import sync_table
 from fastapi import FastAPI, Request, Form
@@ -77,7 +79,8 @@ def login_get_view(request: Request):
 @app.post("/login", response_class=HTMLResponse)
 def login_post_view(request: Request,
                     email: EmailStr = Form(...),
-                    password: SecretStr = Form(...)):
+                    password: SecretStr = Form(...),
+                    next: Union[str, None] = "/"):
     raw_data = {
         "email": email,
         "password": password,
@@ -88,8 +91,22 @@ def login_post_view(request: Request,
         "errors": errors,
     }
     if len(errors) > 0:
-        return render(request, "auth/login.html", context)
+        return render(request, "auth/login.html", context, status_code=400)
+    if "http://127.0.0.1" not in next:
+        next = '/'
     return redirect("/", cookies=data)
+
+
+@app.get("/logout", response_class=HTMLResponse)
+def logout_get_view(request: Request):
+    if not request.user.is_authenticated:
+        return redirect("/login")
+    return render(request, "auth/logout.html")
+
+
+@app.post("/logout", response_class=HTMLResponse)
+def logout_post_view(request: Request):
+    return redirect("/login", remove_session=True)
 
 
 @app.get("/signup", response_class=HTMLResponse)
@@ -113,7 +130,7 @@ def signup_post_view(request: Request,
         "errors": errors,
     }
     if len(errors) > 0:
-        return render(request, "auth/signup.html", context)
+        return render(request, "auth/signup.html", context, status_code=400)
     return redirect("/login")
 
 
