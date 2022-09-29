@@ -7,14 +7,14 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.middleware.authentication import AuthenticationMiddleware
 
 from app.core import db, utils
-from app.core.shortcuts import render, redirect
+from app.core.shortcuts import render, redirect, is_htmx
+from app.playlists.routers import router as playlist_router
 from app.users.backends import JWTCookieBackend
 from app.users.decorators import login_required
 from app.users.exceptions import LoginRequiredException
 from app.users.models import User
 from app.users.schemas import UserSignupSchema, UserLoginSchema
 from app.videos.models import Video
-from app.playlists.routers import router as playlist_router
 from app.videos.routers import router as video_router
 from app.watch_events.models import WatchEvent
 from app.watch_events.routers import router as watch_event_router
@@ -40,7 +40,11 @@ async def http_exception_handler(request, exc):
 
 @app.exception_handler(LoginRequiredException)
 async def login_required_exception_handler(request, exc):
-    return redirect(f"/login?next={request.url}", remove_session=True)
+    response = redirect(f"/login?next={request.url}", remove_session=True)
+    if is_htmx(request):
+        response.status_code = 200
+        response.headers['HX-Redirect'] = '/login'
+    return response
 
 
 @app.on_event("startup")
