@@ -7,7 +7,7 @@
 
             {% include 'snippets/form_errors.html' %}
             {% if request.user.is_authenticated %}
-                <h6>You are already Logged in. Would you like to Log out?</h6>
+                <h6>You are already Logged in. Would you like to <a href="/logout">Log Out</a>?</h6>
             {% else %}
                 <form method='POST'>
                     <div>
