@@ -8,13 +8,11 @@
 
         <div class='col-12 col-md-9'>
             <h1>Videos</h1>
-            <div class="list-group">
                 {% for object in object_list %}
                     <div class="border rounded p-3 m-2">
                         {% include 'videos/htmx/list-inline.html' %}
                     </div>
                 {% endfor %}
-            </div>
         </div>
     </div>
 
