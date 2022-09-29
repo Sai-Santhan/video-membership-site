@@ -2,7 +2,8 @@
     <a href="{{ object.path }}">
         {% if not object.title %}{{ object.host_id }}{% else %}{{ object.title }}{% endif %}
     </a>
-    <button hx-get="/videos/{{ object.host_id }}/hx-edit/"
+    <button class="btn btn-sm btn-outline-secondary m-2"
+            hx-get="/videos/{{ object.host_id }}/hx-edit/"
             hx-target="#video-inline-edit-{{ object.host_id }}">
         Edit
     </button>
