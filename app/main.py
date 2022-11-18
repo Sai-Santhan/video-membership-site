@@ -10,6 +10,7 @@ from starlette.middleware.authentication import AuthenticationMiddleware
 
 from app.core import db, utils
 from app.core.shortcuts import render, redirect, is_htmx
+from app.index.client import update_index, search_index
 from app.playlists.routers import router as playlist_router
 from app.users.backends import JWTCookieBackend
 from app.users.decorators import login_required
@@ -134,10 +135,30 @@ def signup_post_view(request: Request,
     return redirect("/login")
 
 
-@app.get("/users/")
-def users_list_view():
-    q = User.objects.all().limit(10)
-    return list(q)
+@app.post('/update-index', response_class=HTMLResponse)
+def htmx_update_index_view(request: Request):
+    count = update_index()
+    if count is not None:
+        return HTMLResponse(f"{count} Records Refreshed.")
+    return HTMLResponse("No Records present to Refresh.")
+
+
+@app.get("/search/", response_class=HTMLResponse)
+def search_detail_view(request: Request,
+                       q: Union[str, None] = None):
+    query = None
+    context = {}
+    if q is not None:
+        query = q
+        results = search_index(query)
+        hits = results.get('hits') or []
+        number_of_hits = results.get('nbHits')
+        context = {
+            "query": query,
+            "hits": hits,
+            "number_of_hits": number_of_hits
+        }
+    return render(request, "search/detail.html", context)
 
 
 def start():
