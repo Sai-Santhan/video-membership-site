@@ -44,3 +44,25 @@ fully compatible with apache Cassandra (NoSQL) database.
 <img width="55" height="55" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytest/pytest-original-wordmark.svg" />
 
 ### *Other libraries: HTMX, Cassandra-driver, Python-Jose, Argon2, email-validator, python-multipart, python-dotenv*
+
+# Installation
+
+- Clone the repository
+
+```bash
+git clone <REPO-URL>
+```
+
+- Create the virtual environment and install dependencies with:
+
+```bash
+poetry install
+```
+
+- Run below command inside the virtual environment for starting a development server locally:
+
+```bash
+poetry run start
+```
+
+> ### APP will be available at [localhost:8000/](http://localhost:8000/)
