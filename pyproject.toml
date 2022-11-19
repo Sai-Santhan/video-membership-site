@@ -6,8 +6,8 @@ authors = ["Sai-Santhan <dsaisanthan@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-fastapi = "^0.85.0"
-uvicorn = "^0.18.3"
+fastapi = "^0.87.0"
+uvicorn = "^0.19.0"
 cassandra-driver = "^3.25.0"
 python-dotenv = "^0.21.0"
 email-validator = "^1.2.1"
