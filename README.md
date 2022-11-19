@@ -32,11 +32,11 @@ fully compatible with apache Cassandra (NoSQL) database.
 ![FastAPI](https://skillicons.dev/icons?i=fastapi)
 <img width="55" height="55" src="https://raw.githubusercontent.com/tomchristie/uvicorn/master/docs/uvicorn.png" alt="uvicorn">
 <img width="" height="45" src="https://www.starlette.io/img/starlette.png" />
-<img width="" height="45" src="https://pydantic-docs.helpmanual.io/logo-white.svg" />
+<img width="" height="45" src="https://pydantic-docs.helpmanual.io/favicon.png" />
 <img height="55" width="55" src="https://developers.google.com/site-assets/logo-youtube.svg" alt="youtube API" title="youtube API" />
 <img height="55" src="https://user-images.githubusercontent.com/25181517/183898054-b3d693d4-dafb-4808-a509-bab54cf5de34.png" alt="Bootstrap" title="Bootstrap" />
 ![Jinja](https://www.vectorlogo.zone/logos/pocoo_jinja/pocoo_jinja-icon.svg)
-<img height="55" width="75" src="https://cdn.sanity.io/images/bbnkhnhl/production/cfa12c49db301087391e48d85445be46d2e5a0ae-237x41.svg?w=30&q=75&fit=clip&auto=format" alt="Astra DB" title="Astra DB" />
+<img height="35" width="110" src="https://d7umqicpi7263.cloudfront.net/img/product/05a21eaa-ddfb-479c-aaf4-de052f4557eb/3b5c3c82-d033-4830-abac-28f71db39f2a.png" />
 <img height="53" src="https://user-images.githubusercontent.com/25181517/183893668-d45b89f9-bd9f-4143-b61a-7db9ac6bbd5e.png" alt="Cassandra" title="Cassandra" />
 <img width="55" height="55" src="https://raw.githubusercontent.com/vscode-icons/vscode-icons/63a4a33b35b50d243716d03b95a955e49db97662/icons/file_type_poetry.svg" />
 <img width="75" height="55" src="https://www.algolia.com/assets/auth/algolia-logo-light-de756aba38061354ea568f80fe22c1bb780db196fbb7f8f95bb3aaf6da2173b0.svg" />
